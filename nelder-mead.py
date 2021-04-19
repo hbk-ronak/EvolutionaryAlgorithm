@@ -6,10 +6,11 @@ def initSimplex(bounds):
     u = bounds[1]
     return np.random.uniform(low = l, high = u, size = (3,2))
 
-def minimize(func, simplex, max_iter):
+def minimize(func, max_iter):
     pt = []
     opt = []
     for i in range(10):
+        simplex = initSimplex([-5,5])
         for i in range(max_iter):
             f = np.apply_along_axis(func, 1, simplex)
             idx = np.argsort(f)
@@ -49,6 +50,6 @@ def minimize(func, simplex, max_iter):
 
 
 if __name__ == "__main__":
-    data, min_ = minimize(t.ackleys, initSimplex([-4.5,4.5]), 1000)
+    data, min_ = minimize(t.easom,  100)
     print("Minimum value is: %.6f" %min_)
     print("Minimum occurred at: ", data)

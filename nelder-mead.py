@@ -48,6 +48,7 @@ def minimize(func, simplex, max_iter):
 
 
 
-data, min_ = minimize(t.ackleys, initSimplex([-4.5,4.5]), 1000)
-print("Minimum value is: %.6f" %min_)
-print("Minimum occurred at: ", data)
+if __name__ == "__main__":
+    data, min_ = minimize(t.ackleys, initSimplex([-4.5,4.5]), 1000)
+    print("Minimum value is: %.6f" %min_)
+    print("Minimum occurred at: ", data)

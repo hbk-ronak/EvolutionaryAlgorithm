@@ -1,5 +1,4 @@
 import numpy as np
-import testFunction as t
 
 def initSimplex(bounds):
     l = bounds[0]
@@ -50,6 +49,7 @@ def minimize(func,bounds, max_iter):
 
 
 if __name__ == "__main__":
+    import testFunction as t
     data, min_ = minimize(t.easom, [-5,5],  100)
     print("Minimum value is: %.6f" %min_)
     print("Minimum occurred at: ", data)

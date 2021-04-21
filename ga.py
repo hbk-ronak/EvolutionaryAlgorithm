@@ -1,5 +1,4 @@
 import numpy as np
-import testFunction as t
 # np.random.seed(1)
 
 def initialPopulation(popSize, dims, bounds):
@@ -54,5 +53,6 @@ def ga(simulations, func, bounds, population_size, offspring_size, generations):
     return opt, pt
 
 if __name__ == "__main__":
+    import testFunction as t
     opt, pt = ga(30, t.beales, [-4.5,4.5], 30, 1, 10)
     print(opt.min(), pt[opt.argmin()])

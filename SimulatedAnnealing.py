@@ -1,5 +1,4 @@
 import numpy as np
-import testFunction
 
 def temperature(t,i):
 	return T/(1.0+np.log(i+1))
@@ -41,6 +40,7 @@ def minimize(objective, x0, temperature, criterion, step, n_iterations, lower, u
 	return best_x, best_obj
 
 if __name__ == "__main__":
+	import testFunction
 	x = []
 	obj = []	
 	STEP = 2.5

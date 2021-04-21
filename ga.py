@@ -40,7 +40,7 @@ def minimize(func, bounds, population_size, offspring_size, generations):
         offspring = mutate(offspring, 0.5)
         ipop = np.concatenate((offspring, parents))
     fit = fitness(func, ipop)
-    return fit.min(), ipop[fit.argmin()]
+    return ipop[fit.argmin()], fit.min()
 
 def ga(simulations, func, bounds, population_size, offspring_size, generations):
     opt, pt = [], []
@@ -54,5 +54,5 @@ def ga(simulations, func, bounds, population_size, offspring_size, generations):
 
 if __name__ == "__main__":
     import testFunction as t
-    opt, pt = ga(30, t.beales, [-4.5,4.5], 30, 1, 10)
+    pt, opt = ga(30, t.beales, [-4.5,4.5], 30, 1, 10)
     print(opt.min(), pt[opt.argmin()])

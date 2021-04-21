@@ -33,14 +33,15 @@ def updateVelocity(velocity, particles, p, g, w, wp, wg):
     s, d = velocity.shape
     rp = np.random.rand(s, d)
     rg = np.random.rand(s, d)
-
-    v_new = w*velocity + wp*rp*(p-particles) + wg*rg*(g-particles)
+    glob = g.copy()
+    v_new = w*velocity + wp*rp*(p-particles) + wg*rg*(glob-particles)
 
     return v_new
 
 def updateParticle(velocity, particles, lr):
-    particles += lr*velocity
-    return particles
+    particle = particles.copy()
+    particle += lr*velocity
+    return particle
 
 def keepInBounds(bounds, particles):
     l = bounds[0]
@@ -49,26 +50,26 @@ def keepInBounds(bounds, particles):
     particles = np.where(particles > h, h, particles)
     return particles
     
-def minimize(func, w, wp, wg, lr, bounds, size, dims, max_iter = 10):
+def minimize(func, w, wg, lr, bounds, size, dims, max_iter = 10):
     particles = initParticles(size, dims, bounds)
     p = particles.copy()
     opt = np.apply_along_axis(func, 1, particles)
-    g = particles[opt.argmin()]
+    g = particles.copy()[opt.argmin()]
     velocity = initVelocity(size,dims, bounds)
-
+    wp = 1-wg
+    g_array = [func(g)]
     for i in range(max_iter):
         velocity = updateVelocity(velocity, particles, p, g, w, wp, wg)
         particles = updateParticle(velocity, particles, lr)
         particles = keepInBounds(bounds, particles)
         p = particleBest(func, p, particles)
         g = globalBest(func, g, particles)
-
-    return g
+        g_array.append(func(g))
+    return g, func(g), g_array
 
 
 if __name__ == "__main__":
     import testFunction as t
-    sol = minimize(t.beales,0.3,0.5,0.8,1, [-4.5,4.5], 100, 2)
-    opt = t.beales(sol)
-    print(opt, sol)
+    sol, opt, opt_array = minimize(t.goldstein,0.3,0.8,1, [-2,2], 100, 2)
+    print(sol, opt)
 
